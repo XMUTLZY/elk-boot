@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" debug="false">
+    <!-- 控制台输出格式 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%red(%d) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) %cyan(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <!-- action 控制台输出 -->
+    <appender name="ACTION" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%yellow(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>E:/filebeat-7.3.0-windows-x86_64/log/el-boot-action.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 1分钟一次滚动 -->
+            <fileNamePattern>E:/filebeat-7.3.0-windows-x86_64/log/%d{yyyy-MM-dd_HH-mm}.log.gz</fileNamePattern>
+            <!-- 保留7个月日志 -->
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>E:/filebeat-7.3.0-windows-x86_64/log/el-boot-action-error.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 1分钟一次滚动 -->
+            <fileNamePattern>E:/filebeat-7.3.0-windows-x86_64/log/%d{yyyy-MM-dd_HH-mm}-error.log.gz</fileNamePattern>
+            <!-- 保留7个月日志 -->
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 打印jake.elkboot.Interceptor包下的 -->
+    <logger name="jake.elkboot.Interceptor">
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+</configuration>
